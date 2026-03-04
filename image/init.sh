@@ -27,7 +27,7 @@ mount_if_needed devpts devpts /dev/pts
 mount_if_needed tmpfs tmpfs /dev/shm
 
 if [ ! -f /data/.installed ]; then
-    echo "Installing fireclaw..."
+    echo "Installing firellm..."
     for dir in /*; do
         case "$dir" in
             /dev|/proc|/sys|/run|/tmp|/data)
@@ -90,7 +90,7 @@ mkdir -p /run/systemd /run/dbus /run/user
 
 # Set hostname if not set
 if [ ! -s /etc/hostname ]; then
-    echo "fireclaw" > /etc/hostname
+    echo "firellm" > /etc/hostname
 fi
 
 # Start systemd as PID 1

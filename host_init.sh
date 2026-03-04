@@ -3,22 +3,22 @@ set -e
 
 usage() {
     cat <<EOF
-Usage: fireclaw [OPTIONS] [-- ARGS...]
-       fireclaw ssh   # connect to the currently running fireclaw instance
+Usage: firellm [OPTIONS] [-- ARGS...]
+       firellm ssh   # connect to the currently running firellm instance
 
 Options:
   --disk <path>      Mount a disk image at /data. If the file does not exist,
-                     a 10G ext4 image will be created (default: ~/.fireclaw/data.img)
+                     a 10G ext4 image will be created (default: ~/.firellm/data.img)
   -c, --cpus <N>     Set number of CPUs (default: 2)
   -m, --memory <MB>  Set memory in MB (default: 2048)
   --help             Show this help message
 
 Arguments after -- are passed through to the VM.
 
-To control a running instance, connect to its console with "fireclaw ssh" first:
+To control a running instance, connect to its console with "firellm ssh" first:
 
-$ fireclaw ssh
-# openclaw pairing approve ...
+$ firellm ssh
+# claude, opencode, etc. are available on PATH
 EOF
     exit "${1:-0}"
 }
@@ -28,7 +28,7 @@ if [ "$1" = "--help" ]; then
 fi
 
 # Parse arguments
-DISK_PATH="$HOME/.fireclaw/data.img"
+DISK_PATH="$HOME/.firellm/data.img"
 CPUS=2
 MEMORY_MB=2048
 BAKE_ARGS=()
@@ -71,14 +71,14 @@ done
 
 if [ ! -c /dev/kvm ]; then
     echo "⚠️ /dev/kvm does not exist. If running on a VM, ensure that nested virtualization is enabled."
-    if [ "$FIRECLAW_FORCE_START" != "1" ]; then
+    if [ "$FIRELLM_FORCE_START" != "1" ]; then
         exit 1
     fi
 fi
 
 if [ ! -r /dev/kvm ]; then
     echo "⚠️ /dev/kvm is not accessible to the current user. Please fix permissions."
-    if [ "$FIRECLAW_FORCE_START" != "1" ]; then
+    if [ "$FIRELLM_FORCE_START" != "1" ]; then
         exit 1
     fi
 fi
@@ -102,4 +102,4 @@ if [ -n "$DISK_PATH" ]; then
 fi
 
 export BAKE_RUN_VM=1
-exec -a fireclaw "$BAKE_EXE" "${BAKE_ARGS[@]}" --cpus "$CPUS" --memory "$MEMORY_MB" "${DISK_MOUNT_ARGS[@]}" "${PASSTHROUGH_ARGS[@]}"
+exec -a firellm "$BAKE_EXE" "${BAKE_ARGS[@]}" --cpus "$CPUS" --memory "$MEMORY_MB" "${DISK_MOUNT_ARGS[@]}" "${PASSTHROUGH_ARGS[@]}"

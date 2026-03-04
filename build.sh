@@ -24,10 +24,10 @@ fi
 
 tag="$(date -u +%Y%m%d)-1"
 cd image
-docker build --platform "linux/$TARGETARCH" -t fireclaw-image:$tag .
+docker build --platform "linux/$TARGETARCH" -t firellm-image:$tag .
 cd ..
-container_id=$(docker create "fireclaw-image:$tag")
-tempfile=$(mktemp -t fireclaw-image-bake-XXXXXXXX)
+container_id=$(docker create "firellm-image:$tag")
+tempfile=$(mktemp -t firellm-image-bake-XXXXXXXX)
 rm -f "$tempfile"
 docker export $container_id | sqfstar "$tempfile"
 docker rm $container_id
@@ -50,5 +50,5 @@ docker run --rm \
     --kernel /opt/bake/kernel.$TARGETARCH \
     --initrd /opt/bake/initrd.$TARGETARCH.img \
     --rootfs /rootfs.img \
-    --output /output/fireclaw.$TARGETARCH.elf \
+    --output /output/firellm.$TARGETARCH.elf \
     --init-script /host_init.sh
